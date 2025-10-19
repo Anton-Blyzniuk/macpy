@@ -33,7 +33,6 @@ class DisplayController:
 
     @property
     def current_refresh_rate(self) -> int:
-        
         cmd = [
             "bash",
             "-c",
@@ -62,15 +61,62 @@ class DisplayController:
         return int(raw_result)
 
     def _get_current_brightness(self) -> int:
+        """
+        Under development.
+        """
         pass
 
-    def change_resolution(self, width: int, height: int) -> None:
-        pass
+    def change_resolution(self, width: int, height: int) -> dict:
+        """
+        ⚠️ Note:
+        Not every resolution value will work on every machine.
+        You must run `displayplacer list` in Terminal to see which resolutions
+        and scaling modes are available for your display before using this method.
+        """
+        cmd = f'displayplacer "id:{self.display_id} res:{width}x{height} hz:{self.current_refresh_rate} scaling:on"'
+        try:
+            subprocess.run(
+                cmd, shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+            )
+            return {
+                "status": True,
+                "message": f"✅ Display resolution was set to {width}x{height}"
+            }
 
-    def change_refresh_rate(self, refresh_rate: int) -> None:
-        pass
+        except subprocess.CalledProcessError as e:
+            return {
+                "status": False,
+                "message": f"❌ Display resolution wasn't changed: {e}"
+            }
+
+    def change_refresh_rate(self, refresh_rate: int) -> dict:
+        """
+        ⚠️ Note:
+        Not all refresh rate values will work on every monitor.
+        Run `displayplacer list` in Terminal to view all valid refresh rate options
+        for your specific display before using this method.
+        """
+        cur_res = self.current_resolution
+        cmd = f'displayplacer "id:{self.display_id} res:{cur_res[0]}x{cur_res[1]} hz:{refresh_rate} scaling:on"'
+        try:
+            subprocess.run(
+                cmd, shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+            )
+            return {
+                "status": True,
+                "message": f"✅ Display refresh rate was set to {refresh_rate}"
+            }
+
+        except subprocess.CalledProcessError as e:
+            return {
+                "status": False,
+                "message": f"❌ Display refresh rate wasn't changed: {e}"
+            }
 
     def change_brightness(self, brightness: int) -> None:
+        """
+        Under development.
+        """
         pass
 
 
@@ -80,3 +126,6 @@ if __name__ == "__main__":
     )
     print(my_display.current_resolution)
     print(my_display.current_refresh_rate)
+    # print(my_display.change_resolution(1496,967))
+    print(my_display.change_refresh_rate(40))
+
