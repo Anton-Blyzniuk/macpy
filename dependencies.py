@@ -30,8 +30,7 @@ def is_dependencies_installed(dependencies: list[dict]) -> None:
             raise Exception(f"❌ {n} is not installed.\nInstall it with this command: brew install --{t} {n}")
 
 
-
-if __name__ == "__main__":
+def default_dependencies_check() -> None:
     is_brew_installed()
     is_dependencies_installed(
         [
@@ -50,4 +49,7 @@ if __name__ == "__main__":
         ]
     )
 
+
+if __name__ == "__main__":
+    default_dependencies_check()
 
