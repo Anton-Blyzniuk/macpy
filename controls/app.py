@@ -56,7 +56,7 @@ class AppController:
         subprocess.run(["osascript", "-e", script], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
-    def open_applications(app_list: list[str]) -> None:
+    def open_applications(self, app_list: list[str]) -> None:
         for app in app_list:
             cmd = f'open -a "{app}"'
             subprocess.run(
