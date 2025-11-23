@@ -1,7 +1,7 @@
 from controls.app import AppController
 
 
-def close_all_apps() -> None:
+def close_all_apps_func() -> None:
     app_controller = AppController()
     app_controller.close_every_application_except([
         "Finder",
