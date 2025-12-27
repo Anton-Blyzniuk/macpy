@@ -1,3 +1,4 @@
+import os
 import subprocess
 import re
 
@@ -106,13 +107,15 @@ class SystemController:
             print(f"✅ Reduce Transparency disabled")
 
 
-    def set_wallpaper(self, path_to_image: str) -> None:
+    def set_wallpaper(self, file_name: str) -> None:
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        WALLPAPER_PATH = os.path.join(BASE_DIR, "wallpapers", file_name)
         try:
             subprocess.run(
                 [
                     "osascript",
                     "-e",
-                    f'tell application "System Events" to set picture of every desktop to "{path_to_image}"'
+                    f'tell application "System Events" to set picture of every desktop to "{WALLPAPER_PATH}"'
                 ],
                 check=True,
                 stdout=subprocess.DEVNULL,
