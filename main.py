@@ -4,6 +4,7 @@ from default_scripts.planing_close import planing_close_func
 from default_scripts.close_all_apps import close_all_apps_func
 from default_scripts.work_mode import work_mode_func
 from default_scripts.game_mode import game_mode_func
+from default_scripts.low_battery_mode import low_battery_mode_func
 from dependencies import default_dependencies_check
 
 scripts = {
@@ -13,6 +14,7 @@ scripts = {
     "work_mode": work_mode_func,
     "game_mode": game_mode_func,
     "dependencies": default_dependencies_check,
+    "low_battery_mode": low_battery_mode_func
 }
 
 def main() -> None:
