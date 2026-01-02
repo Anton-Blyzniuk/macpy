@@ -4,9 +4,10 @@ import re
 
 class DisplayController:
 
+    KEY_PRES_TO_LOWEST_BRIGHTNESS = 16
+
     def __init__(self, display_id: str) -> None:
         self.display_id = display_id
-        self.current_brightness = None
 
     @property
     def current_resolution(self) -> tuple[int, int]:
@@ -60,18 +61,13 @@ class DisplayController:
 
         return int(raw_result)
 
-    def _get_current_brightness(self) -> int:
+    def set_resolution(self, width: int, height: int) -> dict:
         """
-        Under development.
-        """
-        pass
-
-    def change_resolution(self, width: int, height: int) -> dict:
-        """
-        ⚠️ Note:
+        Note:
         Not every resolution value will work on every machine.
         You must run `displayplacer list` in Terminal to see which resolutions
         and scaling modes are available for your display before using this method.
+        You also can see available resolutions in settings of your mac in display section.
         """
         cmd = f'displayplacer "id:{self.display_id} res:{width}x{height} hz:{self.current_refresh_rate} scaling:on"'
         try:
@@ -89,9 +85,9 @@ class DisplayController:
                 "message": f"❌ Display resolution wasn't changed: {e}"
             }
 
-    def change_refresh_rate(self, refresh_rate: int) -> dict:
+    def set_refresh_rate(self, refresh_rate: int) -> dict:
         """
-        ⚠️ Note:
+        Note:
         Not all refresh rate values will work on every monitor.
         Run `displayplacer list` in Terminal to view all valid refresh rate options
         for your specific display before using this method.
@@ -113,19 +109,48 @@ class DisplayController:
                 "message": f"❌ Display refresh rate wasn't changed: {e}"
             }
 
-    def change_brightness(self, brightness: int) -> None:
-        """
-        Under development.
-        """
-        pass
+    @staticmethod
+    def _brightness_up() -> None:
+        subprocess.run(
+            [
+                "osascript",
+                "-e",
+                'tell application "System Events" to key code 144'
+            ]
+        )
 
+    @staticmethod
+    def _brightness_down() -> None:
+        subprocess.run(
+            [
+                "osascript",
+                "-e",
+                'tell application "System Events" to key code 145'
+            ]
+        )
+
+    @staticmethod
+    def calibrate_brightness() -> None:
+        for _ in range(DisplayController.KEY_PRES_TO_LOWEST_BRIGHTNESS):
+            DisplayController._brightness_down()
+
+    @staticmethod
+    def set_brightness(brightness: int, to_calibrate: bool=True) -> None:
+        if to_calibrate:
+            DisplayController.calibrate_brightness()
+        for _ in range(
+            round((16 / 100) * brightness)
+        ):
+            DisplayController._brightness_up()
+
+        return {
+            "status": True,
+            "message": f"✅ Display brightness was set to {brightness}%"
+        }
 
 if __name__ == "__main__":
     my_display = DisplayController(
         "37D8832A-2D66-02CA-B9F7-8F30A301B230"
     )
-    print(my_display.current_resolution)
-    print(my_display.current_refresh_rate)
-    # print(my_display.change_resolution(1496,967))
-    print(my_display.change_refresh_rate(40))
+    my_display.set_brightness(60, True)
 

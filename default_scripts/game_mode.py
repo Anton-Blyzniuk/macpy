@@ -5,6 +5,9 @@ from controls.display import DisplayController
 
 
 def game_mode_func() -> None:
+    display_conroller = DisplayController("37D8832A-2D66-02CA-B9F7-8F30A301B230")
+    display_conroller.calibrate_brightness()
+
     close_all_apps_func()
 
     app_controller = AppController()
@@ -24,12 +27,14 @@ def game_mode_func() -> None:
     system_controller.low_power_mode(False)
     system_controller.airdrop("Off")
 
-    display_conroller = DisplayController("37D8832A-2D66-02CA-B9F7-8F30A301B230")
     print(
-        display_conroller.change_refresh_rate(120)["message"]
+        display_conroller.set_refresh_rate(120)["message"]
     )
     print(
-        display_conroller.change_resolution(1168, 755)["message"]
+        display_conroller.set_resolution(1168, 755)["message"]
+    )
+    print(
+        display_conroller.set_brightness(70, False)["message"]
     )
 
 
