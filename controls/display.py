@@ -112,13 +112,32 @@ class DisplayController:
                 "status": False,
                 "message": f"❌ Display refresh rate wasn't changed: {e}"
             }
-
+    @staticmethod
     def change_brightness(self, brightness: int) -> None:
         """
         Under development.
         """
         pass
 
+    @staticmethod
+    def brightness_up() -> None:
+        subprocess.run(
+            [
+                "osascript",
+                "-e",
+                'tell application "System Events" to key code 144'
+            ]
+        )
+
+    @staticmethod
+    def brightness_down() -> None:
+        subprocess.run(
+            [
+                "osascript",
+                "-e",
+                'tell application "System Events" to key code 145'
+            ]
+        )
 
 if __name__ == "__main__":
     my_display = DisplayController(
