@@ -67,6 +67,15 @@ class AppController:
                 check=False,
             )
 
+    def focus_application(self, app_name: str) -> None:
+        subprocess.run(
+            f'open -a "{app_name}"',
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            shell=True,
+            check=False,
+        )
+
 
 if __name__ == "__main__":
     app_controller = AppController()

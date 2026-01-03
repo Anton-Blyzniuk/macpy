@@ -35,6 +35,7 @@ def work_mode_func() -> None:
     print(
         display_conroller.set_resolution(1728, 1117)["message"]
     )
+    app_controller.focus_application("Ghostty")
     print(
         display_conroller.set_brightness(60, False)["message"]
     )
