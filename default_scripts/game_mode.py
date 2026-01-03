@@ -33,6 +33,7 @@ def game_mode_func() -> None:
     print(
         display_conroller.set_resolution(1168, 755)["message"]
     )
+    app_controller.focus_application("Ghostty")
     print(
         display_conroller.set_brightness(70, False)["message"]
     )
