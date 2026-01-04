@@ -26,7 +26,6 @@ def work_mode_func() -> None:
     system_controller.reduce_transparency(False)
     system_controller.reduce_motion(False)
     system_controller.low_power_mode(False)
-    system_controller.airdrop("ContactsOnly")
 
     display_conroller = DisplayController("37D8832A-2D66-02CA-B9F7-8F30A301B230")
     print(

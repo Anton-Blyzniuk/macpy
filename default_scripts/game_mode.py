@@ -25,7 +25,6 @@ def game_mode_func() -> None:
     system_controller.reduce_transparency(True)
     system_controller.reduce_motion(True)
     system_controller.low_power_mode(False)
-    system_controller.airdrop("Off")
 
     print(
         display_conroller.set_refresh_rate(120)["message"]

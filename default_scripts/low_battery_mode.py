@@ -19,7 +19,6 @@ def low_battery_mode_func() -> None:
     system_controller.reduce_transparency(True)
     system_controller.reduce_motion(True)
     system_controller.low_power_mode(True)
-    system_controller.airdrop("Off")
 
 
     print(

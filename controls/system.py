@@ -5,7 +5,8 @@ import re
 
 class SystemController:
 
-    def wi_fi(self, activate: bool = True) -> None:
+    @staticmethod
+    def wi_fi(activate: bool = True) -> None:
         device_name = "en0"
         try:
             state = "on" if activate else "off"
@@ -18,7 +19,8 @@ class SystemController:
             print(f"❌ Failed to change Wi-Fi state: {e}")
 
 
-    def bluetooth(self, activate: bool = True) -> None:
+    @staticmethod
+    def bluetooth(activate: bool = True) -> None:
         try:
             state = "1" if activate else "0"
             subprocess.run(
@@ -32,30 +34,8 @@ class SystemController:
             print(f"❌ Failed to change Bluetooth state: {e}")
 
 
-    def airdrop(self, state: str = "ContactsOnly") -> None:
-        try:
-            if state not in {"Off", "ContactsOnly", "Everyone"}:
-                raise ValueError(f"Wrong state: {state}")
-            subprocess.run(
-                [
-                    "defaults",
-                    "write",
-                    "com.apple.sharingd",
-                    "DiscoverableMode",
-                    "-string",
-                    state
-                ],
-                check=True,
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL
-            )
-            subprocess.run(["killall", "sharingd"], check=True)
-            print(f"✅ Airdrop is set to {state}")
-        except Exception as e:
-            print(f"❌ Failed to change Airdrop state: {e}")
-
-
-    def low_power_mode(self, activate: bool = True) -> None:
+    @staticmethod
+    def low_power_mode(activate: bool = True) -> None:
         try:
             state = "1" if activate else "0"
             subprocess.run(
@@ -69,7 +49,8 @@ class SystemController:
             print(f"❌ Failed to change Low Power Mode: {e}")
 
 
-    def reduce_motion(self, activate: bool = True) -> None:
+    @staticmethod
+    def reduce_motion(activate: bool = True) -> None:
         if activate:
             subprocess.run(
                 ["shortcuts", "run", "Motion-off"],
@@ -88,7 +69,8 @@ class SystemController:
             print(f"✅ Reduce Motion disabled")
 
 
-    def reduce_transparency(self, activate: bool = True) -> None:
+    @staticmethod
+    def reduce_transparency(activate: bool = True) -> None:
         if activate:
             subprocess.run(
                 ["shortcuts", "run", "Transparency-off"],
@@ -107,7 +89,8 @@ class SystemController:
             print(f"✅ Reduce Transparency disabled")
 
 
-    def set_wallpaper(self, file_name: str) -> None:
+    @staticmethod
+    def set_wallpaper(file_name: str) -> None:
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         WALLPAPER_PATH = os.path.join(BASE_DIR, "wallpapers", file_name)
         try:
@@ -127,7 +110,8 @@ class SystemController:
             print(f"❌ Wallpaper wasn't changed: {e}")
 
 
-    def set_volume(self, volume: int) -> None:
+    @staticmethod
+    def set_volume(volume: int) -> None:
         try:
             subprocess.run(
                 [
