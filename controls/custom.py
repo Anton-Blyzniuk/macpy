@@ -10,9 +10,15 @@ def cloudflare_warp_connection(activate: bool = True) -> None:
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL
         )
-        print(f"✅ Cloudflare warp connection {'enabled' if activate else 'disabled'}")
+        return {
+            "status": True,
+            "message": f"✅ Cloudflare warp connection {'enabled' if activate else 'disabled'}"
+        }
     except subprocess.CalledProcessError as e:
-        print(f"❌ Failed to change cloudflare warp connection state: {e}")
+        return {
+            "status": False,
+            "message": f"❌ Cloudflare warp connection state wasn't changed"
+        }
 
 
 # Here you can add your custom controllers.

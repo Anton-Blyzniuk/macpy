@@ -14,9 +14,15 @@ class SystemController:
                 ["networksetup", "-setairportpower", device_name, state],
                 check=True
             )
-            print(f"✅ Wi-Fi {'enabled' if activate else 'disabled'}")
+            return {
+                "status": True,
+                "message": f"✅ Wi-Fi {'enabled' if activate else 'disabled'}"
+            }
         except subprocess.CalledProcessError as e:
-            print(f"❌ Failed to change Wi-Fi state: {e}")
+            return {
+                "status": False,
+                "message": f"❌ Wi-Fi state wasn't changed"
+            }
 
 
     @staticmethod
@@ -29,9 +35,15 @@ class SystemController:
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL
             )
-            print(f"✅ Bluetooth {'enabled' if activate else 'disabled'}")
+            return {
+                "status": True,
+                "message": f"✅ Bluetooth {'enabled' if activate else 'disabled'}"
+            }
         except subprocess.CalledProcessError as e:
-            print(f"❌ Failed to change Bluetooth state: {e}")
+            return {
+                "status": False,
+                "message": f"❌ Bluetooth state wasn't changed"
+            }
 
 
     @staticmethod
@@ -44,9 +56,15 @@ class SystemController:
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL
             )
-            print(f"✅ Low Power Mode {'enabled' if activate else 'disabled'}")
+            return {
+                "status": True,
+                "message": f"✅ Low Power Mode {'enabled' if activate else 'disabled'}"
+            }
         except subprocess.CalledProcessError as e:
-            print(f"❌ Failed to change Low Power Mode: {e}")
+            return {
+                "status": False,
+                "message": f"❌ Low Power Mode wasn't changed"
+            }
 
 
     @staticmethod
@@ -58,7 +76,10 @@ class SystemController:
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL
             )
-            print(f"✅ Reduce Motion enabled")
+            return {
+                "status": True,
+                "message": f"✅ Reduce Motion enabled"
+            }
         else:
             subprocess.run(
                 ["shortcuts", "run", "Motion-on"],
@@ -66,7 +87,10 @@ class SystemController:
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL
             )
-            print(f"✅ Reduce Motion disabled")
+            return {
+                "status": True,
+                "message": f"✅ Reduce Motion disabled"
+            }
 
 
     @staticmethod
@@ -78,7 +102,10 @@ class SystemController:
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL
             )
-            print(f"✅ Reduce Transparency enabled")
+            return {
+                "status": True,
+                "message": f"✅ Reduce Transparency enabled"
+            }
         else:
             subprocess.run(
                 ["shortcuts", "run", "Transparency-on"],
@@ -86,7 +113,10 @@ class SystemController:
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL
             )
-            print(f"✅ Reduce Transparency disabled")
+            return {
+                "status": True,
+                "message": f"✅ Reduce Transparency disabled"
+            }
 
 
     @staticmethod
@@ -105,9 +135,15 @@ class SystemController:
                 stderr=subprocess.DEVNULL
             )
             subprocess.run(["killall", "Dock"], check=True)
-            print(f"✅ Wallpaper was changed")
+            return {
+                "status": True,
+                "message": f"✅ Wallpaper was set to {file_name}"
+            }
         except subprocess.CalledProcessError as e:
-            print(f"❌ Wallpaper wasn't changed: {e}")
+            return {
+                "status": False,
+                "message": f"❌ Wallpaper wasn't set to {file_name}"
+            }
 
 
     @staticmethod
@@ -123,9 +159,15 @@ class SystemController:
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL
             )
-            print(f"✅ Volume was changed")
+            return {
+                "status": True,
+                "message": f"✅ Volume was set to {volume}%"
+            }
         except subprocess.CalledProcessError as e:
-            print(f"❌ Volume wasn't changed: {e}")
+            return {
+                "status": False,
+                "message": f"❌ Volume wasn't set to {volume}%"
+            }
 
 
 
