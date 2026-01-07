@@ -3,40 +3,98 @@ from default_scripts.close_all_apps import close_all_apps_func
 from controls.system import SystemController
 from controls.display import DisplayController
 
+from rich.progress import (
+    Progress,
+    SpinnerColumn,
+    BarColumn,
+    TextColumn,
+    TaskProgressColumn,
+    TimeElapsedColumn,
+)
+from rich.console import Console
+from rich.panel import Panel
+
+console = Console()
+
 
 def game_mode_func() -> None:
-    display_conroller = DisplayController("37D8832A-2D66-02CA-B9F7-8F30A301B230")
-    display_conroller.calibrate_brightness()
-
-    close_all_apps_func()
-
+    display_controller = DisplayController(
+        "37D8832A-2D66-02CA-B9F7-8F30A301B230"
+    )
     app_controller = AppController()
-    app_controller.open_applications([
-        "Steam",
-        "Discord"
-    ])
-
     system_controller = SystemController()
-    system_controller.set_volume(60)
 
-    system_controller.set_wallpaper("black.png")
-    system_controller.wi_fi()
-    system_controller.bluetooth()
-    system_controller.reduce_transparency(True)
-    system_controller.reduce_motion(True)
-    system_controller.low_power_mode(False)
+    steps = [
+        ("[bold cyan]Calibrating brightness[/bold cyan]",
+         lambda: display_controller.calibrate_brightness()),
 
-    print(
-        display_conroller.set_refresh_rate(120)["message"]
+        ("Closing all apps",
+         close_all_apps_func),
+
+        ("Opening applications",
+         lambda: app_controller.open_applications(["Steam", "Discord"])),
+
+        ("Setting system volume",
+         lambda: system_controller.set_volume(60)),
+
+        ("Setting wallpaper",
+         lambda: system_controller.set_wallpaper("black.png")),
+
+        ("Configuring system toggles",
+         lambda: (
+             system_controller.wi_fi(),
+             system_controller.bluetooth(),
+             system_controller.reduce_transparency(True),
+             system_controller.reduce_motion(True),
+             system_controller.low_power_mode(False),
+         )),
+
+        ("Setting refresh rate",
+         lambda: display_controller.set_refresh_rate(120)),
+
+        ("Setting resolution",
+         lambda: display_controller.set_resolution(1168, 755)),
+
+        ("Focusing terminal",
+         lambda: app_controller.focus_application("Ghostty")),
+
+        ("Final brightness adjustment",
+         lambda: display_controller.set_brightness(70, False)),
+    ]
+
+    console.print("\n🎮 [bold]Enabling Game Mode[/bold]\n")
+
+    with Progress(
+        SpinnerColumn(style="bold green"),
+        TextColumn("[bold]{task.description}"),
+        BarColumn(bar_width=30, complete_style="green"),
+        TaskProgressColumn(),
+        TimeElapsedColumn(),
+        console=console,
+    ) as progress:
+        task = progress.add_task("Starting...", total=len(steps))
+
+        for name, step in steps:
+            progress.update(task, description=name)
+            try:
+                result = step()
+                progress.advance(task)
+                console.print(f"  [green]✔[/green] {name}")
+            except Exception as e:
+                progress.stop()
+                console.print(
+                    Panel.fit(
+                        str(e),
+                        title="[red]Game mode failed[/red]",
+                        border_style="red",
+                    )
+                )
+                raise
+
+    console.print(
+        Panel.fit(
+            "[bold green]Game mode is ready. Have fun 🎮[/bold green]",
+            title="macpy",
+            border_style="green",
+        )
     )
-    print(
-        display_conroller.set_resolution(1168, 755)["message"]
-    )
-    app_controller.focus_application("Ghostty")
-    print(
-        display_conroller.set_brightness(70, False)["message"]
-    )
-
-
-if __name__ == "__main__":
-    game_mode_func()
