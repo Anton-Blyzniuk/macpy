@@ -20,6 +20,7 @@ class BaseController:
             command: list[str],
             success_message: bool=None,
             error_message: bool=None,
+            raise_on_error: bool=None,
             **kwargs
     ) -> CommandResult:
         try:
@@ -39,6 +40,8 @@ class BaseController:
             )
 
         except subprocess.CalledProcessError as e:
+            if raise_on_error:
+                raise Exception(e)
             return CommandResult(
                 success=False,
                 message=error_message if error_message else f"failed -> {command} -> {e}",

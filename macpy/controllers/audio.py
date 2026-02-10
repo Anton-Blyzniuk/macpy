@@ -15,7 +15,7 @@ class AudioController(BaseController):
                 "-e",
                 f"set volume output volume {volume}"
             ],
+            raise_on_error=True
         )
-        if result.success:
-            self.volume_sate = volume
+        self.volume_sate = volume
         return result

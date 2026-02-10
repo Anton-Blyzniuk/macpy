@@ -16,8 +16,8 @@ class PowerController(BaseController):
                 "-a",
                 "lowpowermode",
                 "1" if activate else "0",
-            ]
+            ],
+            raise_on_error=True,
         )
-        if result.success:
-            self.low_power_mode_state = activate
+        self.low_power_mode_state = activate
         return result

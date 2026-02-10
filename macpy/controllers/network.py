@@ -17,10 +17,10 @@ class NetworkController(BaseController):
                 "-setairportpower",
                 device_name,
                 "on" if activate else "off",
-            ]
+            ],
+            raise_on_error=True
         )
-        if result.success:
-            self.wifi_state = activate
+        self.wifi_state = activate
         return result
 
     def activate_bluetooth(self, activate: bool = True) -> CommandResult:
@@ -29,9 +29,9 @@ class NetworkController(BaseController):
                 "blueutil",
                 "--power",
                 "1" if activate else "0",
-            ]
+            ],
+            raise_on_error=True
         )
-        if result.success:
-            self.bluetooth_state = activate
+        self.bluetooth_state = activate
         return result
 
