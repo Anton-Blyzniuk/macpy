@@ -76,13 +76,6 @@ class DisplayController(BaseController):
             raise_on_error = True,
         )
 
-    def set_resolution(self, width: int, height: int) -> CommandResult:
-        return self._execute(
-            f'displayplacer "id:{self.display_id} res:{width}x{height} hz:{self.current_refresh_rate} scaling:on"',
-            raise_on_error=True,
-            shell=True,
-        )
-
     def calibrate_brightness(self) -> CommandResult:
         for _ in range(self.KEY_PRES_FOR_LOWEST_BRIGHTNESS):
             DisplayController._brightness_down()
@@ -112,4 +105,19 @@ class DisplayController(BaseController):
         return CommandResult(
             success=True,
             message=f"Brightness set to {brightness}."
+        )
+
+    def set_resolution(self, width: int, height: int) -> CommandResult:
+        return self._execute(
+            f'displayplacer "id:{self.display_id} res:{width}x{height} hz:{self.current_refresh_rate} scaling:on"',
+            raise_on_error=True,
+            shell=True,
+        )
+
+    def set_refresh_rate(self, refresh_rate: int) -> CommandResult:
+        cur_res = self.current_resolution
+        return self._execute(
+            f'displayplacer "id:{self.display_id} res:{cur_res[0]}x{cur_res[1]} hz:{refresh_rate} scaling:on"',
+            raise_on_error=True,
+            shell=True,
         )
