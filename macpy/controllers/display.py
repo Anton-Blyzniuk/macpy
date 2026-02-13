@@ -87,7 +87,7 @@ class DisplayController(BaseController):
         )
 
     def set_brightness(self, brightness: int, **kwargs) -> CommandResult:
-        fit_number_in_range_or_raise_an_error(
+        brightness = fit_number_in_range_or_raise_an_error(
             number=brightness,
             lower_bound=0,
             upper_bound=100,

@@ -1,4 +1,5 @@
 from macpy.core import BaseController, CommandResult
+from macpy.utils import fit_number_in_range_or_raise_an_error
 
 
 
@@ -9,6 +10,12 @@ class AudioController(BaseController):
         self.volume_sate: int|None = None
 
     def set_volume(self, volume: int) -> CommandResult:
+        volume = fit_number_in_range_or_raise_an_error(
+            number=volume,
+            lower_bound=0,
+            upper_bound=100,
+            raise_on_error=False
+        )
         result = self._execute(
             [
                 "osascript",
