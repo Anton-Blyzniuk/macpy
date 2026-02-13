@@ -1,5 +1,5 @@
-from macpy.core import BaseController, CommandResult
-from macpy.utils import fit_number_in_range_or_raise_an_error
+from applepy.core import BaseController, CommandResult
+from applepy.utils import fit_number_in_range_or_raise_an_error
 
 
 

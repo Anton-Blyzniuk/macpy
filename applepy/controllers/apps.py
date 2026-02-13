@@ -1,4 +1,4 @@
-from macpy.core import BaseController, CommandResult
+from applepy.core import BaseController, CommandResult
 
 
 class AppController(BaseController):

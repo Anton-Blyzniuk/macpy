@@ -1,5 +1,5 @@
 import subprocess
-from macpy.core import CommandResult
+from applepy.core import CommandResult
 
 
 class BaseController:
