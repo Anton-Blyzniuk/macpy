@@ -1,7 +1,8 @@
 from applepy.core import BaseController, CommandResult
+from applepy.interface import CLIMixin
 
 
-class AppController(BaseController):
+class AppController(BaseController, CLIMixin):
 
     @property
     def running_apps(self) -> list[str]:
@@ -59,7 +60,7 @@ class AppController(BaseController):
             self,
             ignore_apps : list[str] = None,
             force: bool = False,
-            apps_to_force: list = None
+            apps_to_force: list[str] = None
     ) -> CommandResult:
         ignore_apps = ignore_apps or []
         apps_to_force = apps_to_force or []

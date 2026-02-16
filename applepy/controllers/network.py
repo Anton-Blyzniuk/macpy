@@ -1,7 +1,8 @@
-from applepy.core import  BaseController, CommandResult
+from applepy.core import BaseController, CommandResult
+from applepy.interface import CLIMixin
 
 
-class NetworkController(BaseController):
+class NetworkController(BaseController, CLIMixin):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

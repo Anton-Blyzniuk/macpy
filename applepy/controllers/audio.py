@@ -1,9 +1,10 @@
 from applepy.core import BaseController, CommandResult
 from applepy.utils import fit_number_in_range_or_raise_an_error
+from applepy.interface import CLIMixin
 
 
 
-class AudioController(BaseController):
+class AudioController(BaseController, CLIMixin):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 

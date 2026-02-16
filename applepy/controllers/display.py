@@ -1,8 +1,9 @@
 from applepy.core import BaseController, CommandResult
 from applepy.utils import fit_number_in_range_or_raise_an_error
+from applepy.interface import CLIMixin
 
 
-class DisplayController(BaseController):
+class DisplayController(BaseController, CLIMixin):
     KEY_PRES_FOR_LOWEST_BRIGHTNESS = 16
 
     def __init__(self, display_id: str, **kwargs):
