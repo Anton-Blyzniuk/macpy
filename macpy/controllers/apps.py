@@ -1,8 +1,7 @@
 from macpy.core import BaseController, CommandResult
-from macpy.interface import CodeGeneratorMixin
 
 
-class AppController(BaseController, CodeGeneratorMixin):
+class AppController(BaseController):
 
     @property
     def running_apps(self) -> list[str]:

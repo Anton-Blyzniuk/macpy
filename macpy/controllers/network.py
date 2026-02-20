@@ -1,8 +1,7 @@
 from macpy.core import BaseController, CommandResult
-from macpy.interface import CodeGeneratorMixin
 
 
-class NetworkController(BaseController, CodeGeneratorMixin):
+class NetworkController(BaseController):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

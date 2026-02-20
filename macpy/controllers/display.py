@@ -1,10 +1,9 @@
 from macpy.core import BaseController, CommandResult
 from macpy.utils import fit_number_in_range_or_raise_an_error
-from macpy.interface import CodeGeneratorMixin
 from macpy import settings
 
 
-class DisplayController(BaseController, CodeGeneratorMixin):
+class DisplayController(BaseController):
     KEY_PRES_FOR_LOWEST_BRIGHTNESS = 16
 
     def __init__(self, **kwargs):

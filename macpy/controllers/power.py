@@ -1,8 +1,7 @@
 from macpy.core import BaseController, CommandResult
-from macpy.interface import CodeGeneratorMixin
 
 
-class PowerController(BaseController, CodeGeneratorMixin):
+class PowerController(BaseController):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
