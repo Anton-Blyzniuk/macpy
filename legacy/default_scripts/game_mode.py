@@ -94,7 +94,7 @@ def game_mode_func() -> None:
     console.print(
         Panel.fit(
             "[bold green]Game mode is ready. Have fun 🎮[/bold green]",
-            title="applepy",
+            title="macpy",
             border_style="green",
         )
     )

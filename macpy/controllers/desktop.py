@@ -1,8 +1,8 @@
-from applepy.core import BaseController, CommandResult
-from applepy.interface import CLIMixin
+from macpy.core import BaseController, CommandResult
+from macpy.interface import CodeGeneratorMixin
 
 
-class DesktopController(BaseController, CLIMixin):
+class DesktopController(BaseController, CodeGeneratorMixin):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

@@ -97,7 +97,7 @@ def work_mode_func() -> None:
     console.print(
         Panel.fit(
             "[bold green]Work mode is ready 🚀[/bold green]",
-            title="applepy",
+            title="macpy",
             border_style="green",
         )
     )

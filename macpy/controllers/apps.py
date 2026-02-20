@@ -1,8 +1,8 @@
-from applepy.core import BaseController, CommandResult
-from applepy.interface import CLIMixin
+from macpy.core import BaseController, CommandResult
+from macpy.interface import CodeGeneratorMixin
 
 
-class AppController(BaseController, CLIMixin):
+class AppController(BaseController, CodeGeneratorMixin):
 
     @property
     def running_apps(self) -> list[str]:

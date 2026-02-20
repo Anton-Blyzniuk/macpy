@@ -1,15 +1,16 @@
-from applepy.core import BaseController, CommandResult
-from applepy.utils import fit_number_in_range_or_raise_an_error
-from applepy.interface import CLIMixin
+from macpy.core import BaseController, CommandResult
+from macpy.utils import fit_number_in_range_or_raise_an_error
+from macpy.interface import CodeGeneratorMixin
+from macpy import settings
 
 
-class DisplayController(BaseController, CLIMixin):
+class DisplayController(BaseController, CodeGeneratorMixin):
     KEY_PRES_FOR_LOWEST_BRIGHTNESS = 16
 
-    def __init__(self, display_id: str, **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.display_id: str = display_id
+        self.display_id: str = settings.DISPLAY_ID
         self.brightness_state: int|None = None
 
     @property
