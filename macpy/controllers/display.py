@@ -1,4 +1,4 @@
-from macpy.core import BaseController, CommandResult
+from macpy.controllers import BaseController, CommandResult
 from macpy.utils import fit_number_in_range_or_raise_an_error
 from macpy import settings
 

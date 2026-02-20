@@ -1,4 +1,4 @@
-from macpy.core import BaseController, CommandResult
+from macpy.controllers import BaseController, CommandResult
 
 
 class NetworkController(BaseController):
