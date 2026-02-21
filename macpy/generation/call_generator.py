@@ -28,4 +28,4 @@ class CallGenerator:
             name = p['name']
             if name in values:
                 args.append(f"{name}={values[name]!r}")
-        return f"{variable_name}({', '.join(args)})"
+        return f"{variable_name}.{inspected_method.get('name')}({', '.join(args)})"
