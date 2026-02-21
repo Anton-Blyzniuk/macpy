@@ -1,3 +1,2 @@
 from macpy.utils.numbers import fit_number_in_range_or_raise_an_error as fit_number_in_range_or_raise_an_error
 from macpy.utils.class_inspector import Inspector
-from macpy.utils.create_objects_of_all_classes_in_module import create_all_objects
