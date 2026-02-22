@@ -1,0 +1,1 @@
+from macpy.scripts.manager import ScriptManager

@@ -1,0 +1,1 @@
+from macpy.inspection.inspector import Inspector as Inspector
