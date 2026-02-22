@@ -1,5 +1,7 @@
 import sys
 from macpy.scripts import ScriptManager
+from macpy import settings
+import os
 
 
 def main():
@@ -45,6 +47,10 @@ def main():
 
         script_manager.edit_script(script_name)
 
+    if action == "settings":
+        os.system(
+            f"{settings.CODE_EDITOR_COMMAND} {settings.SETTINGS_FILE_PATH}"
+        )
 
 
 

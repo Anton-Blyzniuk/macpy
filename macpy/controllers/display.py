@@ -87,7 +87,11 @@ class DisplayController(BaseController):
             message="Brightness calibrated."
         )
 
-    def set_brightness(self, brightness: int, **kwargs) -> CommandResult:
+    def set_brightness(
+            self,
+            brightness: int,
+            to_calibrate: bool = False
+    ) -> CommandResult:
         brightness = fit_number_in_range_or_raise_an_error(
             number=brightness,
             lower_bound=0,
@@ -95,7 +99,7 @@ class DisplayController(BaseController):
             raise_on_error=False
         )
 
-        if not kwargs.get("do_not_calibrate"):
+        if to_calibrate:
             if self.brightness_state != 0:
                 self.calibrate_brightness()
 

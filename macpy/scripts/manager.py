@@ -1,21 +1,11 @@
 import os
 import sys
 import subprocess
-from curses.ascii import isdigit
-
-from macpy import controllers, settings
+from macpy import settings, cli
 
 
 class ScriptManager:
-    _instance = None
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-    def __new__(cls, *args, **kwargs):
-        if not cls._instance:
-            cls._instance = super().__new__(cls)
-        return cls._instance
-
 
     def __init__(self, scripts_dir: None|str = None) -> None:
         if scripts_dir is None:
@@ -39,29 +29,9 @@ class ScriptManager:
 
 
     def create_script(self, script_name: str) -> None:
-        code = (
-            f"# {script_name} script\n"
-            "from macpy.controllers import *\n\n"
+        code = cli.CLIInterface.create_script_flow(
+            script_name,
         )
-        controllers_objects = [getattr(controllers, name)() for name in controllers.__all__]
-        if self.if_script_already_exists(script_name):
-            print(f"Script {script_name} already exists.")
-            return
-        while True:
-            for i in range(len(controllers_objects)):
-                print(f"{i}. {controllers_objects[i].__class__.__name__}")
-
-            action = input("Choose a controller: ")
-            if action == "stop":
-                break
-            if not isdigit(action):
-                print("Please enter a valid number.")
-                continue
-            if not int(action) in range(0, len(controllers_objects)):
-                print("Please enter a valid number.")
-                continue
-
-            code += controllers_objects[int(action)].code()
 
         file_path = os.path.join(self.script_dir, f"script_{script_name}.py")
         with open(file_path, "w") as f:
@@ -80,7 +50,9 @@ class ScriptManager:
         )
 
     def edit_script(self, script_name: str) -> None:
-        os.system(f"{settings.CODE_EDITOR_COMMAND} {os.path.join(self.script_dir, f"script_{script_name}.py")}")
+        os.system(
+            f"{settings.CODE_EDITOR_COMMAND} {os.path.join(self.script_dir, f"script_{script_name}.py")}"
+        )
 
 
     def delete_script(self, script_name: str) -> None:

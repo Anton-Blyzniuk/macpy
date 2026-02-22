@@ -2,7 +2,7 @@ from typing import Callable
 
 
 class CLIInput:
-    supported_argument_types = [str, int, float, bool]
+    supported_argument_types = [str, int, float]
 
     @classmethod
     def is_supported_argument_type(cls, argument_type: type):
@@ -16,7 +16,7 @@ class CLIInput:
             message: str = None,
             validator: Callable = None,
             exit_word: str = None,
-    ) -> str | int | float | bool:
+    ) -> str | int | float:
         cls.is_supported_argument_type(arg_type)
 
         argument = input(message if message else "")
@@ -34,6 +34,18 @@ class CLIInput:
 
         return argument
 
+    @staticmethod
+    def input_boolean(
+            message: str = None,
+            exit_word: str = None,
+    ) -> bool | None:
+        argument = str(input(message if message else "")).lower()
+        if argument == exit_word:
+            return exit_word
+        if argument in ("yes", "y", "true"):
+            return True
+        return False
+
     @classmethod
     def input_list(
             cls,
@@ -43,7 +55,7 @@ class CLIInput:
             validator: Callable = None,
             detailed_validator: Callable = None,
             exit_word: str = "exit"
-    ) -> list[str] | list[int] | list[float] | list[bool]:
+    ) -> list[str] | list[int] | list[float]:
         cls.is_supported_argument_type(arg_type)
 
         print(message)

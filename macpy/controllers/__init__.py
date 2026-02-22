@@ -7,6 +7,7 @@ from macpy.controllers.display import DisplayController
 from macpy.controllers.power import PowerController
 from macpy.controllers.apps import AppController
 from macpy.controllers.desktop import DesktopController
+from macpy.controllers.shell import ShellController
 
 __available_controllers__ = [
     AudioController,
@@ -15,4 +16,5 @@ __available_controllers__ = [
     PowerController,
     AppController,
     DesktopController,
+    ShellController,
 ]

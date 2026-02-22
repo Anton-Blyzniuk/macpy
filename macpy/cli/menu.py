@@ -50,10 +50,14 @@ class CLIMenu:
         values = {}
         for p in method.get("parameters", []):
             annotation = p.get("annotation")
-            if annotation in [int, float, str, bool]:
+            if annotation in [int, float, str]:
                 values[p.get("name")] = CLIInput.input_argument(
                     arg_type=annotation,
                     message=f"Method: {method.get('name')} requires argument ({p.get('name')} -> {annotation}): "
+                )
+            elif annotation is bool:
+                values[p.get("name")] = CLIInput.input_boolean(
+                    message=f"Method: {method.get('name')} requires argument ({p.get('name')} -> [True/False]): "
                 )
             elif get_origin(annotation) is list:
                 values[p.get("name")] = CLIInput.input_list(

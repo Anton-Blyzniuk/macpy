@@ -36,7 +36,7 @@ class AppController(BaseController):
             [
                 "pkill", "-9", "-f", app
             ],
-            raise_on_error=True
+            raise_on_error=False
         )
 
     def open_applications(self, app_list: list[str]) -> CommandResult:
@@ -75,3 +75,13 @@ class AppController(BaseController):
             success=True,
             message=f"All apps were closed except: {ignore_apps}",
         )
+
+if __name__ == "__main__":
+    app = AppController()
+    print(app.running_apps)
+    app.close_all_applications(
+        ignore_apps=[
+            'ghostty',
+            'pycharm'
+        ]
+    )

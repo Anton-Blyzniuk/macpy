@@ -22,6 +22,7 @@ class BaseController:
             error_message: bool=None,
             raise_on_error: bool=None,
             capture_output: bool=None,
+            restart_dock: bool=None,
             **kwargs
     ) -> CommandResult:
         try:
@@ -34,7 +35,7 @@ class BaseController:
                 **kwargs,
             )
 
-            if kwargs.get("restart_dock"):
+            if restart_dock:
                 subprocess.run(["killall", "Dock"], check=True)
 
             return CommandResult(
