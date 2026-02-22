@@ -6,7 +6,7 @@ class ScriptBuilder:
             controller_usage_units: list[str],
     ) -> str:
         return (
-            f"In this file you can see code for '{script_name}' script.\n\n"
+            f"# In this file you can see code for '{script_name}' script.\n\n"
             "from macpy.controllers import *\n\n\n"
             f"{'\n\n'.join(controller_usage_units)}"
         )
