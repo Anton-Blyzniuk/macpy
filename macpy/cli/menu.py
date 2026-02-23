@@ -1,48 +1,42 @@
-from macpy.cli import CLIInput
+from macpy.cli import CLIInput, CLIOutput
 from typing import get_origin, get_args
 from typing import Any
 from macpy import controllers, generation, inspection
+from rich.console import Console
+
+console = Console()
+
 
 class CLIMenu:
-
-    @staticmethod
-    def show_list(arg_list: list) -> None:
-        for i in range(len(arg_list)):
-            print(f"[Index: {i}] -> ({arg_list[i]} : {type(arg_list[i]).__name__})")
-
-    @staticmethod
-    def show_error(error: Exception, message: str) -> None:
-        print(f"{message} -> {error}")
-
-
-    @staticmethod
-    def confirm_action(question: str) -> bool:
-        return CLIInput.input_argument(
-            arg_type=str,
-            message=question,
-        ).lower() == "y"
 
     @staticmethod
     def show_list_and_select_element(
             list_element: list,
             message: str,
             exit_word: str,
-            confirm_action: bool = False
+            title: str,
+            confirm_action: bool = False,
     ) -> Any:
+        console.clear()
+        CLIOutput.output_list(list_element, title=title)
         while True:
-            CLIMenu.show_list(list_element)
-            try:
-                result = CLIInput.input_argument(
-                    arg_type=int,
-                    message=message,
-                    exit_word=exit_word,
+            result = CLIInput.input_argument(
+                arg_type=int,
+                message=message,
+                exit_word=exit_word,
+            )
+            if result == exit_word:
+                return exit_word
+            if confirm_action:
+                if not CLIInput.confirm_action("Are you sure?"):
+                    continue
+            if result not in range(0, len(list_element)):
+                CLIOutput.output_error(
+                    error="Element doesn't exist.",
                 )
-                if confirm_action:
-                    if not CLIMenu.confirm_action("Are you sure? [y/N]: "):
-                        continue
-                return result
-            except ValueError as error:
-                CLIMenu.show_error(error=error, message="Element not found.")
+                continue
+            return result
+
 
 
     @staticmethod
@@ -53,16 +47,22 @@ class CLIMenu:
             if annotation in [int, float, str]:
                 values[p.get("name")] = CLIInput.input_argument(
                     arg_type=annotation,
-                    message=f"Method: {method.get('name')} requires argument ({p.get('name')} -> {annotation}): "
+                    message=f"'{method.get('name')}' requires {p.get('name')}[{annotation}]"
                 )
             elif annotation is bool:
+                CLIOutput.output_message(
+                    message=f"'{method.get('name')}' requires {p.get('name')}[boolean]"
+                )
                 values[p.get("name")] = CLIInput.input_boolean(
-                    message=f"Method: {method.get('name')} requires argument ({p.get('name')} -> [True/False]): "
+                    message=f"'{method.get('name')}' requires {p.get('name')}[True/False]"
                 )
             elif get_origin(annotation) is list:
+                CLIOutput.output_message(
+                    message=f"'{method.get('name')}' requires list {p.get('name')}[{get_args(annotation)[0]}]\n"
+                            f"type 'exit' to exit",
+                )
                 values[p.get("name")] = CLIInput.input_list(
                     arg_type=get_args(annotation)[0],
-                    message=f"Method {method.get('name')} requires list ({p.get('name')} -> {get_args(annotation)[0]}): "
                 )
         return values
 
@@ -89,9 +89,10 @@ class CLIMenu:
         while True:
             choice = CLIMenu.show_list_and_select_element(
                 list_element=method_names,
-                message=f"Select method: ",
+                message=f"Enter method index",
                 exit_word="exit",
                 confirm_action=False,
+                title="Methods",
             )
             if choice == "exit":
                 break
