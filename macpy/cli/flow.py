@@ -10,9 +10,10 @@ class CLIInterface:
         while True:
             choice = CLIMenu.show_list_and_select_element(
                 list_element=controllers_names,
-                message=f"Select controller: ",
+                message=f"Enter controller index",
                 exit_word="exit",
                 confirm_action=True,
+                title="Controllers",
             )
             if choice == "exit":
                 break
