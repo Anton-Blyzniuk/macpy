@@ -1,10 +1,13 @@
 [project]
 name = "macpy"
 version = "0.1.0"
-dependencies = []
+dependencies = [
+    "rich",
+]
 
 [project.scripts]
 macpy = "macpy.manage:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
+exclude = ["build*", "dist*", ".venv*", ".tox*"]
